@@ -26,12 +26,12 @@ export default class AccordionComponent extends React.Component {
   }
 
   componentDidMount() {
-    console.log(this.props.data.length);
+    //console.log(this.props.data.length);
     {
       this.props.data.map((index, item) => {
         //console.log(index["category_won"]);
-        console.log(index["team_name"]);
-        console.log(index["category_won"]);
+        // console.log(index["team_name"]);
+        // console.log(index["category_won"]);
       });
     }
   }

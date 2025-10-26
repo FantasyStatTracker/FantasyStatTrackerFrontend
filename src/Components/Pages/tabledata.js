@@ -76,7 +76,9 @@ export default class TableData extends React.Component {
                 <h4>{item}</h4>
               </td>
               <td>
-                <h4>{this.props.data[item]}</h4>
+                <h4>
+                  {index + 1} - {this.props.data[item]}
+                </h4>
               </td>
             </tr>
           );

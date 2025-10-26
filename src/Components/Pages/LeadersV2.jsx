@@ -21,14 +21,14 @@ export default class LeadersV2 extends React.Component {
 
 
   async setTabKey(e) {
-    console.log(e)
+    //console.log(e)
     await this.setState({ activeKey: e });
   }
   
 
   async componentDidMount() {
     await axios
-      .get(global.config.apiEndpoint.production + "/category-leader-v2")
+      .get(global.config.apiEndpoint.production + "/category-leader-week")
       .then((response) => {
         this.setState({ rawDataFromResponseV2: response.data });
       });

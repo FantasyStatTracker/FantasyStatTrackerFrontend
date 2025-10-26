@@ -25,11 +25,11 @@ export default class BarChartStats extends React.Component {
   }
 
   componentDidMount() {
-    console.log(this.props);
+    // console.log(this.props);
     var graphDataArray = [];
     var sum = 0;
     for (var x in this.props.data) {
-      console.log(x, this.props.data[x]);
+      // console.log(x, this.props.data[x]);
       var graphDataObj = {};
       graphDataObj["name"] = x;
       graphDataObj["value"] = this.props.data[x];
@@ -39,7 +39,7 @@ export default class BarChartStats extends React.Component {
 
     this.setState({ average: (sum / graphDataArray.length).toFixed(3) });
     this.setState({ graphData: graphDataArray });
-    console.log(graphDataArray);
+    // console.log(graphDataArray);
   }
 
   render() {

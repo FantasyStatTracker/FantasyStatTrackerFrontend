@@ -1,6 +1,6 @@
 module.exports = global.config = {
   apiEndpoint: {
     //production: "",
-    production: "http://3.140.187.88:8000",
+    production: "https://18.217.209.250:8000/",
   },
 };

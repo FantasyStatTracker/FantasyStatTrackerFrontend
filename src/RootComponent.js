@@ -57,35 +57,29 @@ export default class RootComponent extends React.Component {
       .then((response) => {
         this.setState({ rawDataFromResponseV2: response.data });
       });
-    await axios
-      .get(global.config.apiEndpoint.production + "/full-team-data")
-      .then((response) => {
-        this.setState({ rawDataFromResponse: JSON.stringify(response.data) });
-      });
 
-    console.log(this.state.rawDataFromResponseV2);
-    console.log(this.state.rawDataMongo);
+    // console.log(this.state.rawDataFromResponseV2);
+    // console.log(this.state.rawDataMongo);
     var arr = [];
-    var obj = JSON.parse(this.state.rawDataFromResponse);
-    var dataKeySet = Object.keys(obj["team_data"]);
-    this.processPhotoData(obj["team_photo"]);
-    obj = obj["team_data"];
+    // var dataKeySet = Object.keys(obj["team_data"]);
+    // this.processPhotoData(obj["team_photo"]);
+    // obj = obj["team_data"];
 
     var catArray = [];
 
-    for (var key in dataKeySet) {
-      var w = {};
-      w[dataKeySet[key]] = obj[dataKeySet[key]];
-      arr.push(w);
-    }
+    // for (var key in dataKeySet) {
+    //   var w = {};
+    //   w[dataKeySet[key]] = obj[dataKeySet[key]];
+    //   arr.push(w);
+    // }
 
     await this.setState({ AllData: arr });
 
-    for (var x in arr[0][dataKeySet[0]]) {
-      catArray.push(x);
-    }
+    // for (var x in arr[0][dataKeySet[0]]) {
+    //   catArray.push(x);
+    // }
 
-    await this.setState({ Players: dataKeySet });
+    // await this.setState({ Players: dataKeySet });
     await this.setState({ dataArray: arr });
     await this.setState({ Categories: catArray });
 
@@ -93,19 +87,19 @@ export default class RootComponent extends React.Component {
       LoadingButton: false,
     });
 
-    var allWeekArray = [];
-    var totalWeek = -1;
-    await axios
-      .get(global.config.apiEndpoint.production + "/week")
-      .then((response) => {
-        totalWeek = response.data;
-      });
+    // var allWeekArray = [];
+    // var totalWeek = -1;
+    // await axios
+    //   .get(global.config.apiEndpoint.production + "/week")
+    //   .then((response) => {
+    //     totalWeek = response.data;
+    //   });
 
-    for (var i = 1; i <= totalWeek - 1; i++) {
-      allWeekArray.push(i);
-    }
+    // for (var i = 1; i <= totalWeek - 1; i++) {
+    //   allWeekArray.push(i);
+    // }
 
-    await this.setState({ weekArray: allWeekArray });
+    // await this.setState({ weekArray: allWeekArray });
   }
 
   async processPhotoData(teamPhotosJsonObject) {
@@ -124,24 +118,17 @@ export default class RootComponent extends React.Component {
   }
 
   render() {
-    let currentStatInformation = [
-      this.state.Categories,
-      this.state.dataArray,
-      this.state.Players,
-      this.state.photoData,
-    ];
-
     let leaderInformation = [
       this.state.Categories,
       this.state.AllData,
       this.state.photoData,
     ];
 
-    let teamData = this.state.rawDataFromResponseV2;
+    // let teamData = this.state.rawDataFromResponseV2;
 
-    let teamCompareInformation = [this.state.AllData];
+    // let teamCompareInformation = [this.state.AllData];
 
-    let previousWeekInformation = [this.state.weekArray, this.state.photoData];
+    // let previousWeekInformation = [this.state.weekArray, this.state.photoData];
 
     return (
       <div>
@@ -159,10 +146,10 @@ export default class RootComponent extends React.Component {
                   Previous Weeks
                 </Button>
     */}
-                <Button href="#/" variant="dark" id="2">
+                <Button href="#/LeaderV2" variant="dark" id="2">
                   Leaders
                 </Button>
-                <Button href="#/Compare" variant="dark" id="3">
+                <Button href="#/CompareV2" variant="dark" id="3">
                   Team vs Other Teams
                 </Button>
                 {/*
@@ -209,20 +196,9 @@ export default class RootComponent extends React.Component {
                       exact
                       path="/"
                       render={(props) => (
-                        <Leaders
+                        <LeadersV2
                           {...props}
                           LeaderInformation={leaderInformation}
-                        />
-                      )}
-                    />
-
-                    <Route
-                      exact
-                      path="/Compare"
-                      render={(props) => (
-                        <TeamCompare
-                          {...props}
-                          TeamCompareInformation={teamCompareInformation}
                         />
                       )}
                     />

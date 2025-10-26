@@ -8,7 +8,7 @@ export default class TeamNav extends React.Component {
   }
 
   componentDidMount() {
-    console.log(this.props.data);
+    //console.log(this.props.data);
   }
 
   render() {

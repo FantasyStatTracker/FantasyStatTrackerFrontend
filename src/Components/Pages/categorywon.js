@@ -8,7 +8,7 @@ export default class CategoryWon extends React.Component {
   }
 
   componentDidMount() {
-    console.log(this.props.data);
+    //console.log(this.props.data);
   }
 
   render() {

@@ -19,7 +19,7 @@ export default class LeaderTable extends React.Component {
   }
 
   componentDidMount() {
-    console.log(this.props);
+    //console.log(this.props);
   }
 
   render() {
