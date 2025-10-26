@@ -19,6 +19,8 @@ import CurrentStats from "./Components/Pages/CurrentStats";
 import PreviousWeek from "./Components/Pages/PreviousWeek";
 import PlayerZScore from "./Components/Pages/PlayerZScore";
 import TeamStrength from "./Components/Pages/TeamStrength";
+import TeamCompareV2 from "./Components/Pages/TeamCompareV2";
+import LeadersV2 from "./Components/Pages/LeadersV2";
 
 export default class RootComponent extends React.Component {
   constructor(props) {
@@ -26,6 +28,7 @@ export default class RootComponent extends React.Component {
 
     this.state = {
       rawDataFromResponse: "",
+      rawDataFromResponseV2: null,
       dataArray: [],
       Players: [],
       Categories: [],
@@ -35,39 +38,48 @@ export default class RootComponent extends React.Component {
       photoData: [],
       teamInjury: "",
       teamTransactions: "",
+      rawDataMongo: "",
     };
 
     this.refresh = this.refresh.bind(this);
   }
 
   async componentDidMount() {
+    /*
     await axios
-      .get(global.config.apiEndpoint.production + "/full-team-data")
+      .get(global.config.apiEndpoint.production + "/streak")
       .then((response) => {
-        this.setState({ rawDataFromResponse: JSON.stringify(response.data) });
+        this.setState({ rawDataMongo: response.data });
+      });
+      */
+    await axios
+      .get(global.config.apiEndpoint.production + "/full-team-data-v2")
+      .then((response) => {
+        this.setState({ rawDataFromResponseV2: response.data });
       });
 
+    // console.log(this.state.rawDataFromResponseV2);
+    // console.log(this.state.rawDataMongo);
     var arr = [];
-    var obj = JSON.parse(this.state.rawDataFromResponse);
-    var dataKeySet = Object.keys(obj["team_data"]);
-    this.processPhotoData(obj["team_photo"]);
-    obj = obj["team_data"];
+    // var dataKeySet = Object.keys(obj["team_data"]);
+    // this.processPhotoData(obj["team_photo"]);
+    // obj = obj["team_data"];
 
     var catArray = [];
 
-    for (var key in dataKeySet) {
-      var w = {};
-      w[dataKeySet[key]] = obj[dataKeySet[key]];
-      arr.push(w);
-    }
+    // for (var key in dataKeySet) {
+    //   var w = {};
+    //   w[dataKeySet[key]] = obj[dataKeySet[key]];
+    //   arr.push(w);
+    // }
 
     await this.setState({ AllData: arr });
 
-    for (var x in arr[0][dataKeySet[0]]) {
-      catArray.push(x);
-    }
+    // for (var x in arr[0][dataKeySet[0]]) {
+    //   catArray.push(x);
+    // }
 
-    await this.setState({ Players: dataKeySet });
+    // await this.setState({ Players: dataKeySet });
     await this.setState({ dataArray: arr });
     await this.setState({ Categories: catArray });
 
@@ -75,19 +87,19 @@ export default class RootComponent extends React.Component {
       LoadingButton: false,
     });
 
-    var allWeekArray = [];
-    var totalWeek = -1;
-    await axios
-      .get(global.config.apiEndpoint.production + "/week")
-      .then((response) => {
-        totalWeek = response.data;
-      });
+    // var allWeekArray = [];
+    // var totalWeek = -1;
+    // await axios
+    //   .get(global.config.apiEndpoint.production + "/week")
+    //   .then((response) => {
+    //     totalWeek = response.data;
+    //   });
 
-    for (var i = 1; i <= totalWeek - 1; i++) {
-      allWeekArray.push(i);
-    }
+    // for (var i = 1; i <= totalWeek - 1; i++) {
+    //   allWeekArray.push(i);
+    // }
 
-    await this.setState({ weekArray: allWeekArray });
+    // await this.setState({ weekArray: allWeekArray });
   }
 
   async processPhotoData(teamPhotosJsonObject) {
@@ -106,22 +118,17 @@ export default class RootComponent extends React.Component {
   }
 
   render() {
-    let currentStatInformation = [
-      this.state.Categories,
-      this.state.dataArray,
-      this.state.Players,
-      this.state.photoData,
-    ];
-
     let leaderInformation = [
       this.state.Categories,
       this.state.AllData,
       this.state.photoData,
     ];
 
-    let teamCompareInformation = [this.state.AllData];
+    // let teamData = this.state.rawDataFromResponseV2;
 
-    let previousWeekInformation = [this.state.weekArray, this.state.photoData];
+    // let teamCompareInformation = [this.state.AllData];
+
+    // let previousWeekInformation = [this.state.weekArray, this.state.photoData];
 
     return (
       <div>
@@ -131,18 +138,21 @@ export default class RootComponent extends React.Component {
             <Navbar.Collapse id="responsive-navbar-nav">
               <Navbar.Brand>Fantasy Stat Track</Navbar.Brand>
               <Nav className="mr-auto">
+                {/*
                 <Button href="#/" variant="dark" id="0">
                   Home
                 </Button>
                 <Button href="#/PreviousWeek" variant="dark" id="1">
                   Previous Weeks
                 </Button>
-                <Button href="#/Leaders" variant="dark" id="2">
+    */}
+                <Button href="#/LeaderV2" variant="dark" id="2">
                   Leaders
                 </Button>
-                <Button href="#/Compare" variant="dark" id="3">
+                <Button href="#/CompareV2" variant="dark" id="3">
                   Team vs Other Teams
                 </Button>
+                {/*
                 <Button href="#/Prediction" variant="dark" id="4">
                   Predictions
                 </Button>
@@ -152,6 +162,7 @@ export default class RootComponent extends React.Component {
                 <Button href="#/PlayerRating" variant="dark" id="6">
                   Player Rating
                 </Button>
+  */}
               </Nav>
             </Navbar.Collapse>
           </Container>
@@ -167,20 +178,14 @@ export default class RootComponent extends React.Component {
                   <Switch>
                     <Route
                       exact
-                      path="/PreviousWeek"
-                      render={(props) => (
-                        <PreviousWeek
-                          {...props}
-                          WeekInformation={previousWeekInformation}
-                        />
-                      )}
+                      path="/CompareV2"
+                      render={(props) => <TeamCompareV2 />}
                     />
-
                     <Route
                       exact
-                      path="/Leaders"
+                      path="/LeaderV2"
                       render={(props) => (
-                        <Leaders
+                        <LeadersV2
                           {...props}
                           LeaderInformation={leaderInformation}
                         />
@@ -189,14 +194,28 @@ export default class RootComponent extends React.Component {
 
                     <Route
                       exact
-                      path="/Compare"
+                      path="/"
                       render={(props) => (
-                        <TeamCompare
+                        <LeadersV2
                           {...props}
-                          TeamCompareInformation={teamCompareInformation}
+                          LeaderInformation={leaderInformation}
                         />
                       )}
                     />
+                    {/*
+                    <Route
+                      exact
+                      path="/PreviousWeek"
+                      render={(props) => (
+                        <PreviousWeek
+                          {...props}
+                          WeekInformation={previousWeekInformation}
+                        />
+                      )}
+                    />
+                      */}
+
+                    {/*
                     <Route exact path="/Prediction" component={Prediction} />
 
                     <Route
@@ -225,6 +244,7 @@ export default class RootComponent extends React.Component {
                         />
                       )}
                     />
+                    */}
                   </Switch>
                 </HashRouter>
               ) : (
