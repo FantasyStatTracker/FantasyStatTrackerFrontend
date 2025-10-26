@@ -27,11 +27,11 @@ export default class LeadersV2 extends React.Component {
   
 
   async componentDidMount() {
-    await axios
-      .get(global.config.apiEndpoint.production + "/category-leader-week")
-      .then((response) => {
-        this.setState({ rawDataFromResponseV2: response.data });
-      });
+    // await axios
+    //   .get(global.config.apiEndpoint.production + "/category-leader-week")
+    //   .then((response) => {
+    //     this.setState({ rawDataFromResponseV2: response.data });
+    //   });
 
     await axios
     .get(global.config.apiEndpoint.production + "/team-photo-v2")
